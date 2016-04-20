@@ -23,6 +23,7 @@ action :create do
     shell cron_options[:shell] if cron_options.key?(:shell)
     user cron_options[:user] || node['backup']['user']
     home cron_options[:home] if cron_options.key?(:home)
+    environment cron_options[:environment] if cron_options.key?(:environment)
 
     minute new_resource.schedule[:minute] || '*'
     hour new_resource.schedule[:hour] || '*'
