@@ -11,6 +11,8 @@ attribute :cookbook, :kind_of => String, :default => "backup"
 attribute :cron_options, :kind_of => Hash
 attribute :schedule, :kind_of => Hash
 
+attribute :date, :kind_of => Symbol, :equal_to => [:today, :yesterday], :required => false
+
 # Set default
 def initialize(*args)
   super

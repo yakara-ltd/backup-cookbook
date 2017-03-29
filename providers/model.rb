@@ -11,9 +11,19 @@ action :create do
                            "> /dev/null"
                          end
 
+  cron_trigger = new_resource.name
+
+  if new_resource.date == :yesterday
+    cron_trigger += '-$( date -d yesterday +%F )'
+  elsif new_resource.date == :today
+    cron_trigger += '-$( date +%F )'
+  elsif !new_resource.date.nil?
+    fail "Invalid date: '#{new_resource.date.to_s}' - valid :today or :yesterday"
+  end
+
   cron_d cron_name do
     command cron_options[:command] ||
-      "backup perform --trigger #{new_resource.name} \
+      "backup perform --trigger #{cron_trigger} \
       --config-file #{node['backup']['config_path']}/config.rb \
       --log-path=#{node['backup']['log_path']} #{node['backup']['addl_flags']} \
       #{cron_output_redirect}".squeeze(' ')
@@ -42,7 +52,8 @@ action :create do
     variables(
       :name => new_resource.name,
       :description => new_resource.description || new_resource.name,
-      :definition => new_resource.definition
+      :definition => new_resource.definition,
+      :date => new_resource.date
     )
     if new_resource.template.is_a? Hash
       new_resource.template.each{ |k, v| send k, v }
