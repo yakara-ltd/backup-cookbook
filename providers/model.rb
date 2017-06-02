@@ -14,9 +14,9 @@ action :create do
   cron_trigger = new_resource.name
 
   if new_resource.date == :yesterday
-    cron_trigger += '-$( date -d yesterday +%F )'
+    cron_trigger += "-$( date -d yesterday +\\%F  )"
   elsif new_resource.date == :today
-    cron_trigger += '-$( date +%F )'
+    cron_trigger += "-$( date +\\%F )"
   elsif !new_resource.date.nil?
     fail "Invalid date: '#{new_resource.date.to_s}' - valid :today or :yesterday"
   end
