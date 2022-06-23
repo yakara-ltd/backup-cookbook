@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: backup
+# Cookbook:: backup
 # Attributes:: default
 #
-# Copyright 2011, Cramer Development, Inc.
+# Copyright:: 2011, Cramer Development, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -33,4 +33,4 @@ default['backup']['version_from_git?'] = false
 default['backup']['git_repo'] = nil
 default['backup']['upgrade?'] = false
 
-default['backup']['server']       = {}
+default['backup']['server'] = {}
