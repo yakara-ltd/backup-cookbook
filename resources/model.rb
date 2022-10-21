@@ -1,7 +1,8 @@
 actions :create, :delete
 default_action :create
 
-attribute :name, kind_of: String, name_attribute: true, required: true
+unified_mode true
+
 attribute :description, kind_of: String
 
 attribute :definition, kind_of: String

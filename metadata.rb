@@ -4,5 +4,5 @@ maintainer_email 'sysadmin@cramerdev.com'
 license          'Apache-2.0'
 description      'Installs/Configures backup'
 version          '1.3.1'
-depends          'cron'
+
 depends          'gem_specific_install'

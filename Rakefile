@@ -1,13 +1,5 @@
 #!/usr/bin/env rake
 
-require 'foodcritic'
-
-task default: [:foodcritic]
-
-FoodCritic::Rake::LintTask.new do |t|
-  t.options = { fail_tags: ['any', '~FC017'] }
-end
-
 desc 'Runs knife cookbook test'
 task :knife do
   Rake::Task[:prepare_sandbox].execute
