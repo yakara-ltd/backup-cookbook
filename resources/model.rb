@@ -1,20 +1,17 @@
 actions :create, :delete
 default_action :create
 
-attribute :name, :kind_of => String, :name_attribute => true, :required => true
-attribute :description, :kind_of => String
+unified_mode true
 
-attribute :definition, :kind_of => String
-attribute :template, :kind_of => Hash
-attribute :cookbook, :kind_of => String, :default => "backup"
+attribute :description, kind_of: String
 
-attribute :cron_options, :kind_of => Hash
-attribute :schedule, :kind_of => Hash
+attribute :definition, kind_of: String
+attribute :template, kind_of: Hash
+attribute :cookbook, kind_of: String, default: 'backup'
 
-attribute :date, :kind_of => Symbol, :equal_to => [:today, :yesterday], :required => false
+attribute :cron_options, kind_of: Hash
+attribute :schedule, kind_of: Hash
+
+attribute :date, kind_of: Symbol, equal_to: [:today, :yesterday], required: false
 
 # Set default
-def initialize(*args)
-  super
-  @action = :create
-end

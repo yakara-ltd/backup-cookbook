@@ -1,32 +1,29 @@
 # Support whyrun
-def whyrun_supported?
-  true
-end
 
 action :create do
   cron_options = new_resource.cron_options || {}
   cron_output_redirect = if cron_options.key?(:output_log)
                            "2>&1 >> #{cron_options[:output_log]}"
                          else
-                           "> /dev/null"
+                           '> /dev/null'
                          end
 
   cron_trigger = new_resource.name
 
   if new_resource.date == :yesterday
-    cron_trigger += "-$( date -d yesterday +\\%F  )"
+    cron_trigger += '-$( date -d yesterday +\\%F  )'
   elsif new_resource.date == :today
-    cron_trigger += "-$( date +\\%F )"
+    cron_trigger += '-$( date +\\%F )'
   elsif !new_resource.date.nil?
-    fail "Invalid date: '#{new_resource.date.to_s}' - valid :today or :yesterday"
+    raise "Invalid date: '#{new_resource.date.to_s}' - valid :today or :yesterday"
   end
 
   cron_d cron_name do
     command cron_options[:command] ||
-      "cd /tmp/ ; backup perform --trigger #{cron_trigger} \
-      --config-file #{node['backup']['config_path']}/config.rb \
-      --log-path=#{node['backup']['log_path']} #{node['backup']['addl_flags']} \
-      #{cron_output_redirect}".squeeze(' ')
+            "cd /tmp/ ; backup perform --trigger #{cron_trigger} \
+            --config-file #{node['backup']['config_path']}/config.rb \
+            --log-path=#{node['backup']['log_path']} #{node['backup']['addl_flags']} \
+            #{cron_output_redirect}".squeeze(' ')
 
     mailto cron_options[:mailto] if cron_options.key?(:mailto)
     path cron_options[:path] if cron_options.key?(:path)
@@ -50,13 +47,13 @@ action :create do
     group node['backup']['group']
     mode '0600'
     variables(
-      :name => new_resource.name,
-      :description => new_resource.description || new_resource.name,
-      :definition => new_resource.definition,
-      :date => new_resource.date
+      name: new_resource.name,
+      description: new_resource.description || new_resource.name,
+      definition: new_resource.definition,
+      date: new_resource.date
     )
     if new_resource.template.is_a? Hash
-      new_resource.template.each{ |k, v| send k, v }
+      new_resource.template.each { |k, v| send k, v }
     end
   end
 end

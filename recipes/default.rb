@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: backup
+# Cookbook:: backup
 # Recipe:: default
 #
-# Copyright 2011-2012, Cramer Development, Inc.
+# Copyright:: 2011-2012, Cramer Development, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,9 +19,9 @@
 
 if node['backup']['version_from_git?']
   include_recipe 'gem_specific_install'
-  gem_specific_install "backup" do
+  gem_specific_install 'backup' do
     repository node['backup']['git_repo']
-    revision "master"
+    revision 'master'
     action :install
   end
 else
@@ -37,7 +37,7 @@ node['backup']['dependencies'].each do |gem, ver|
   end
 end
 
-%w[ config_path model_path ].each do |dir|
+%w( config_path model_path ).each do |dir|
   directory node['backup'][dir] do
     owner node['backup']['user']
     group node['backup']['group']
@@ -45,8 +45,8 @@ end
   end
 end
 
-template "Backup config file" do
-  path ::File.join( node['backup']['config_path'], "config.rb")
+template 'Backup config file' do
+  path ::File.join(node['backup']['config_path'], 'config.rb')
   source 'config.rb.erb'
   owner node['backup']['user']
   group node['backup']['group']
